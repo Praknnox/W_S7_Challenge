@@ -10,10 +10,10 @@ const validationErrors = {
 
 // 👇 Here you will create your schema.
 const peakSchema=yup.object().shape({
-  fullName:yup.string().trim().min(3,validationErrors.fullNameTooShort)
+  fullName:yup.string().trim().required().min(3,validationErrors.fullNameTooShort)
   .max(20,validationErrors.fullNameTooLong),
-  pieSize:yup.string().trim().oneOf([
-    'small','medium','large'
+  size:yup.string().required().trim().oneOf([
+    'S','M','L'
   ],validationErrors.sizeIncorrect)
 })
 
@@ -25,9 +25,19 @@ const toppings = [
   { topping_id: '4', text: 'Mushrooms' },
   { topping_id: '5', text: 'Ham' },
 ]
+const initVal=()=>({
+  fullName:'',
+  size:''
+})
+const initErr=()=>({
+  fullName:'',
+  size:''
+})
 
 export default function Form() {
   const [enabler,isItEnabled]=useState(false)
+  const [formVal,setFormV]=useState(initVal())
+  const [forError,setErrorm]=useState(initErr())
   return (
     <form>
       <h2>Order Your Pizza</h2>
@@ -48,9 +58,9 @@ export default function Form() {
           <select id="size">
             <option value="">----Choose Size----</option>
             {/* Fill out the missing options */}
-            <option value='small'>Small</option>
-            <option value='medium'>Medium</option>
-            <option value='large'>Large</option>
+            <option value='S'>Small</option>
+            <option value='M'>Medium</option>
+            <option value='L'>Large</option>
           </select>
         </div>
         {true && <div className='error'>Bad value</div>}
