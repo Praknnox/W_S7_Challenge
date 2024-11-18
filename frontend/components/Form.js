@@ -37,7 +37,7 @@ const initErr=()=>({
 })
 
 export default function Form() {
-  const [enabler,isItEnabled]=useState(false)
+  const [enabler,isItEnabled]=useState(null)
   const [formVal,setFormV]=useState(initVal())
   const [forError,setErrorm]=useState(initErr())
   const [succeed,hasSucceed]=useState()
@@ -66,17 +66,17 @@ export default function Form() {
     .then(()=>setErrorm(prevError => ({...prevError,[name]:''})))
     .catch((err)=>setErrorm(prevErr => ({...prevErr,[name]:err.errors[0]})))
   }
-  console.log(forError)
+  //console.log(forError)
   return (
     <form onSubmit={submitten}>
       <h2>Order Your Pizza</h2>
-      {succeed && <div className='success'>Thank you for your order!</div>}
+      {succeed && <div className='success'>{succeed}</div>}
       {failed && <div className='failure'>Something went wrong</div>}
 
       <div className="input-group">
         <div>
           <label htmlFor="fullName">Full Name</label><br />
-          <input placeholder="Type full name" id="fullName" type="text"  onChange={letsMorphin}/>
+          <input placeholder="Type full name" id="fullName" type="text" name='fullName'  onChange={letsMorphin}/>
         </div>
         {forError.fullName && <div className='error'>{forError.fullName}</div>}
       </div>
@@ -84,7 +84,7 @@ export default function Form() {
       <div className="input-group">
         <div>
           <label htmlFor="size">Size</label><br />
-          <select id="size"  onChange={letsMorphin}>
+          <select id="size" name='size' onChange={letsMorphin}>
             <option value="">----Choose Size----</option>
             {/* Fill out the missing options */}
             <option value='S'>Small</option>
