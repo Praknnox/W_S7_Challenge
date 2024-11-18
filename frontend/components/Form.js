@@ -44,7 +44,7 @@ export default function Form() {
   const [failed,hasFailed]=useState()
   
   useEffect(()=>{
-    peakSchema.isValid(formVal).then(isItEnabled)
+    peakSchema.isValid(formVal).then(valid => isItEnabled(valid))
   },[formVal])
   
   const submitten=evt=>{
@@ -63,9 +63,10 @@ export default function Form() {
     let {value,name}=evt.target
     setFormV({...formVal,[name]:value})
     yup.reach(peakSchema,name).validate(value)
-    .then(()=>setErrorm({...forError,[name]:''}))
-    .catch((err)=>setErrorm({...forError,[name]:err.errors[0]}))
+    .then(()=>setErrorm(prevError => ({...prevError,[name]:''})))
+    .catch((err)=>setErrorm(prevErr => ({...prevErr,[name]:err.errors[0]})))
   }
+  console.log(forError)
   return (
     <form onSubmit={submitten}>
       <h2>Order Your Pizza</h2>
