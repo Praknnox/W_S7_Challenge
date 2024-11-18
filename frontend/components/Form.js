@@ -60,7 +60,11 @@ export default function Form() {
   }
 
   const letsMorphin=evt=>{
-    
+    let {value,name}=evt.target
+    setFormV({...formVal,[name]:value})
+    yup.reach(peakSchema,name).validate(value)
+    .then(()=>setErrorm({...forError,[name]:''}))
+    .catch((err)=>setErrorm({...forError,[name]:err.errors[0]}))
   }
   return (
     <form onSubmit={submitten}>
@@ -71,15 +75,15 @@ export default function Form() {
       <div className="input-group">
         <div>
           <label htmlFor="fullName">Full Name</label><br />
-          <input placeholder="Type full name" id="fullName" type="text" />
+          <input placeholder="Type full name" id="fullName" type="text"  onChange={letsMorphin}/>
         </div>
-        {true && <div className='error'>Bad value</div>}
+        {forError.fullName && <div className='error'>{forError.fullName}</div>}
       </div>
 
       <div className="input-group">
         <div>
           <label htmlFor="size">Size</label><br />
-          <select id="size">
+          <select id="size"  onChange={letsMorphin}>
             <option value="">----Choose Size----</option>
             {/* Fill out the missing options */}
             <option value='S'>Small</option>
@@ -87,7 +91,7 @@ export default function Form() {
             <option value='L'>Large</option>
           </select>
         </div>
-        {true && <div className='error'>Bad value</div>}
+        {forError.size && <div className='error'>{forError.size}</div>}
       </div>
 
       <div className="input-group">
