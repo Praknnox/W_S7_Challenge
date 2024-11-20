@@ -29,11 +29,13 @@ const toppings = [
 
 const initVal=()=>({
   fullName:'',
-  size:''
+  size:'',
+  toppings:[]
 })
 const initErr=()=>({
   fullName:'',
-  size:''
+  size:'',
+  toppings:[]
 })
 
 export default function Form() {
@@ -76,7 +78,7 @@ export default function Form() {
       <div className="input-group">
         <div>
           <label htmlFor="fullName">Full Name</label><br />
-          <input placeholder="Type full name" id="fullName" type="text" name='fullName'  onChange={letsMorphin}/>
+          <input placeholder="Type full name" id="fullName" type="text" name='fullName' value={formVal.fullName} onChange={letsMorphin}/>
         </div>
         {forError.fullName && <div className='error'>{forError.fullName}</div>}
       </div>
@@ -84,7 +86,7 @@ export default function Form() {
       <div className="input-group">
         <div>
           <label htmlFor="size">Size</label><br />
-          <select id="size" name='size' onChange={letsMorphin}>
+          <select id="size" name='size' value={formVal.size} onChange={letsMorphin}>
             <option value="">----Choose Size----</option>
             {/* Fill out the missing options */}
             <option value='S'>Small</option>
@@ -101,7 +103,9 @@ export default function Form() {
           <label key={toppo.topping_id}>
             <input
             name={toppo.text}
-            type='checkbox'/>
+            type='checkbox'
+            value={formVal.toppings}
+            />
             {toppo.text}<br />
           </label>
         ))}
