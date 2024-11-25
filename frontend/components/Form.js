@@ -68,7 +68,14 @@ export default function Form() {
     .then(()=>setErrorm(prevError => ({...prevError,[name]:''})))
     .catch((err)=>setErrorm(prevErr => ({...prevErr,[name]:err.errors[0]})))
   }
-  //console.log(forError)
+  const toppHandler=evt=>{
+    let {name,checked}=evt.target
+    if(checked){
+      setFormV({...formVal,toppings:[...formVal.toppings,name]})
+    }else{
+      setFormV({...formVal,toppings:formVal.toppings.filter(t=>t!=name)})
+    }
+  }
   return (
     <form onSubmit={submitten}>
       <h2>Order Your Pizza</h2>
@@ -102,9 +109,11 @@ export default function Form() {
         toppings.map((toppo)=>(
           <label key={toppo.topping_id}>
             <input
-            name={toppo.text}
+            name={toppo.topping_id}
             type='checkbox'
             value={formVal.toppings}
+            onChange={toppHandler}
+            checked={!!formVal.toppings.find(t=>t==toppo.topping_id)}
             />
             {toppo.text}<br />
           </label>
